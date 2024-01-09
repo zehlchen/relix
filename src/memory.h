@@ -32,6 +32,7 @@ void* rx_real_malloc(uint32 size, const char* file, int line);
 void* rx_real_calloc(uint32 count, uint32 size, const char* file, int line);
 void* rx_real_realloc(void* ptr, uint32 size, const char* file, int line);
 void  rx_real_free(void* ptr);
+void  rx_mem_print();
 
 #define rx_malloc(size)        rx_real_malloc(size, __FILE__, __LINE__)
 #define rx_calloc(count, size) rx_real_calloc(count, size, __FILE__, __LINE__)
