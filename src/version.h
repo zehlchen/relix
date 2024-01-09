@@ -23,11 +23,39 @@
 #ifndef RELIX_VERSION_H
 #define RELIX_VERSION_H
 
-extern const int proty_version[3];
-extern const char *proty_version_string;
-extern const char *proty_platform;
-extern const char *proty_prefix;
-extern const char *proty_build_type;
-extern const char *proty_copyright;
+extern const int   relix_version[3];
+extern const char* relix_version_string;
+extern const char* relix_platform;
+extern const char* relix_prefix;
+extern const char* relix_build_type;
+extern const char* relix_copyright;
+
+#ifndef RELIX_GIT_BUILD
+#define RELIX_GIT_BUILD "unknown"
+#endif
+
+#ifndef RELIX_GIT_COMMIT
+#define RELIX_GIT_COMMIT "unknown"
+#endif
+
+#ifndef RELIX_GIT_BRANCH
+#define RELIX_GIT_BRANCH "unknown"
+#endif
+
+#ifndef RELIX_GIT_TAG
+#define RELIX_GIT_TAG "unknown"
+#endif
+
+#ifndef RELIX_VERSION_STRING
+#define RELIX_VERSION_STRING "unknown"
+#endif
+
+#define RELIX_VERSION_STRING_LONG \
+  "RELIX-" RELIX_VERSION_STRING "-" RELIX_GIT_COMMIT "-" RELIX_GIT_BRANCH "-" RELIX_GIT_TAG
+
+#define RELIX_VERSION_STRING_SHORT "RELIX-" RELIX_VERSION_STRING
+
+void relix_print_version();
+void relix_print_copyright();
 
 #endif
