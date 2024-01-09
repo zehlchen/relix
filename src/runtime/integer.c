@@ -100,6 +100,21 @@ Object* Integer_ge(Object* self, Object* other)
   return self->data.i >= other->data.i ? Qtrue : Qfalse;
 }
 
+Object* Integer_bwand(Object* self, Object* other)
+{
+  return Integer_new(self->data.i & other->data.i);
+}
+
+Object* Integer_bwor(Object* self, Object* other)
+{
+  return Integer_new(self->data.i | other->data.i);
+}
+
+Object* Integer_bwxor(Object* self, Object* other)
+{
+  return Integer_new(self->data.i ^ other->data.i);
+}
+
 /*
  * Inplace operations
  */
@@ -137,6 +152,10 @@ void Integer_initProto()
   Object_setSlot(Integer_proto, SYM(-), FUNC(Integer_sub, 2));
   Object_setSlot(Integer_proto, SYM(*), FUNC(Integer_mul, 2));
   Object_setSlot(Integer_proto, SYM(/), FUNC(Integer_div, 2));
+
+  Object_setSlot(Integer_proto, SYM(&), FUNC(Integer_bwand, 2));
+  Object_setSlot(Integer_proto, SYM(|), FUNC(Integer_bwor, 2));
+  Object_setSlot(Integer_proto, SYM(^), FUNC(Integer_bwxor, 2));
 
   Object_setSlot(Integer_proto, SYM(==), FUNC(Integer_eq, 2));
   Object_setSlot(Integer_proto, SYM(!=), FUNC(Integer_ne, 2));

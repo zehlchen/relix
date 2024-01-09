@@ -7,8 +7,8 @@ int yylex(void* yylval_param, void* loc, void* scanner);
 %}
 
 %locations
-%error-verbose
-%pure_parser
+%define parse.error verbose
+%define api.pure
 %parse-param {void* scanner}
 %parse-param {Node** root}
 %lex-param {yyscan_t* scanner}
@@ -34,6 +34,7 @@ int yylex(void* yylval_param, void* loc, void* scanner);
 %left AND OR
 %left NOT
 %left EQ NE GT LT LE GE
+%left BAND BOR BXOR
 %left ADD SUB
 %left MUL DIV
 
@@ -66,6 +67,11 @@ int yylex(void* yylval_param, void* loc, void* scanner);
 %token COLON ":"
 %token SEMICOLON ";"
 %token ARROW "=>"
+
+// logical operations
+%token BAND "&"
+%token BOR "|"
+%token BXOR "^"
 
 %type <node> primary stmts cmpd_stmt stmt expr subscript
 %type <node> if_stmt while_stmt try_stmt unop binop slotop args
@@ -139,6 +145,9 @@ binop         : expr ADD expr  { $$ = BinOpNode_new($1, $3, "+"); }
               | expr SUB expr  { $$ = BinOpNode_new($1, $3, "-"); }
               | expr MUL expr  { $$ = BinOpNode_new($1, $3, "*"); }
               | expr DIV expr  { $$ = BinOpNode_new($1, $3, "/"); }
+              | expr BAND expr { $$ = BinOpNode_new($1, $3, "&"); }
+              | expr BOR expr  { $$ = BinOpNode_new($1, $3, "|"); }
+              | expr BXOR expr  { $$ = BinOpNode_new($1, $3, "^"); }
               | expr EQ expr   { $$ = BinOpNode_new($1, $3, "=="); }
               | expr NE expr   { $$ = BinOpNode_new($1, $3, "!="); }
               | expr GT expr   { $$ = BinOpNode_new($1, $3, ">"); }

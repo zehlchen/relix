@@ -23,6 +23,10 @@
 "*"     { return MUL; }
 "/"     { return DIV; }
 
+"&"     { return BAND; }
+"|"     { return BOR; }
+"^"     { return BXOR; }
+
 "=="    { return EQ; }
 "!="    { return NE; }
 ">"     { return GT; }
