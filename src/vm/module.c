@@ -27,7 +27,7 @@
 
 #include "memory.h"
 
-#define MAGIC 0x23425250
+#define RELIX_MAGIC 0x52454c58
 
 Module* Module_new()
 {
@@ -58,7 +58,7 @@ int Module_addBlock(Module* self, Block* block)
 void Module_write(Module* self, FILE* file)
 {
   // write magic
-  int magic = MAGIC;
+  int magic = RELIX_MAGIC;
   fwrite(&magic, sizeof(int), 1, file);
 
   // write block count
@@ -77,7 +77,7 @@ Module* Module_read(FILE* file)
   // check magic
   int magic;
   fread(&magic, sizeof(int), 1, file);
-  assert(magic == MAGIC);
+  assert(magic == RELIX_MAGIC);
 
   // read blocks
   int blockc;
@@ -96,7 +96,7 @@ int Module_probe(FILE* file)
   int magic = 0;
   fread(&magic, sizeof(int), 1, file);
   rewind(file);
-  return magic == MAGIC;
+  return magic == RELIX_MAGIC;
 }
 
 void Module_dump(Module* self)
