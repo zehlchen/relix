@@ -6,16 +6,17 @@
 #include <vm/eval.h>
 #include <vm/module.h>
 
+#include "version.h"
+
 // GNU readline
 #include <readline/history.h>
 #include <readline/readline.h>
 
 int main(int argc, char** argv)
 {
-  printf("RELIX " VERSION " " BUILD_TYPE " (" __DATE__ ", " __TIME__ ")\n");
-#ifdef GIT_VERSION
-  printf("[" GIT_VERSION "]\n");
-#endif
+  relix_print_version();
+  relix_print_copyright();
+
   printf("\n");
 
   runtime_init();
@@ -27,7 +28,7 @@ int main(int argc, char** argv)
   State_setGlobalState(state);
 
   while (1) {
-    char* input = readline("> ");
+    char* input = readline("relix> ");
 
     if (!input)
       break;
