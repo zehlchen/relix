@@ -25,13 +25,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "memory.h"
+
 #define MAGIC 0x23425250
 
 Module* Module_new()
 {
-  Module* module = malloc(sizeof(Module));
+  Module* module = rx_malloc(sizeof(Module));
 
-  module->blocks = malloc(sizeof(Block*));
+  module->blocks = rx_malloc(sizeof(Block*));
   module->blockc = 0;
 
   return module;
@@ -40,15 +42,15 @@ Module* Module_new()
 void Module_delete(Module* self)
 {
   for (int i = 0; i < self->blockc; i++) {
-    free(self->blocks[i]);
+    rx_free(self->blocks[i]);
   }
-  free(self->blocks);
-  free(self);
+  rx_free(self->blocks);
+  rx_free(self);
 }
 
 int Module_addBlock(Module* self, Block* block)
 {
-  self->blocks               = realloc(self->blocks, sizeof(char*) * (self->blockc + 1));
+  self->blocks               = rx_realloc(self->blocks, sizeof(char*) * (self->blockc + 1));
   self->blocks[self->blockc] = block;
   return self->blockc++;
 }

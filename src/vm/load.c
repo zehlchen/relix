@@ -25,9 +25,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "memory.h"
+
 Object* load(State* state, const char* name)
 {
-  char* lib_name = malloc(sizeof(char) * (6 + strlen(name) + strlen(SHARED_LIB_PREFIX) + strlen(SHARED_LIB_SUFFIX)));
+  char* lib_name = rx_malloc(sizeof(char) * (6 + strlen(name) + strlen(SHARED_LIB_PREFIX) + strlen(SHARED_LIB_SUFFIX)));
 
   strcpy(lib_name, SHARED_LIB_PREFIX);
   strcat(lib_name, "proty-");
@@ -38,15 +40,15 @@ Object* load(State* state, const char* name)
   if (!lib)
     return Qnil;
 
-  char* init_name = malloc(sizeof(char) * (strlen(name) + 5));
+  char* init_name = rx_malloc(sizeof(char) * (strlen(name) + 5));
   strcpy(init_name, name);
   strcat(init_name, "_init");
 
   Object* (*init_func)();
   init_func = dlsym(lib, init_name);
 
-  free(lib_name);
-  free(init_name);
+  rx_free(lib_name);
+  rx_free(init_name);
 
   return init_func ? init_func() : Qnil;
 }

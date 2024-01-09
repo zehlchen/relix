@@ -26,6 +26,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "memory.h"
+
 void Const_write(Const* self, FILE* file)
 {
   // write type
@@ -60,7 +62,7 @@ void Const_read(Block* block, FILE* file)
       size_t length;
       fread(&length, sizeof(size_t), 1, file);
 
-      char* data = malloc(sizeof(char) * length);
+      char* data = rx_malloc(sizeof(char) * length);
       fread(data, sizeof(char), length, file);
 
       Block_const(block, type, data);
@@ -68,7 +70,7 @@ void Const_read(Block* block, FILE* file)
     }
 
     case CONST_FLOAT: {
-      double* data = malloc(sizeof(double));
+      double* data = rx_malloc(sizeof(double));
       fread(data, sizeof(double), 1, file);
       Block_const(block, CONST_FLOAT, data);
       break;

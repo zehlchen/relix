@@ -25,14 +25,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "memory.h"
+
 Block* Block_new()
 {
-  Block* block = malloc(sizeof(Block));
+  Block* block = rx_malloc(sizeof(Block));
 
-  block->data = malloc(sizeof(int));
+  block->data = rx_malloc(sizeof(int));
   block->size = 0;
 
-  block->consts = malloc(sizeof(Const));
+  block->consts = rx_malloc(sizeof(Const));
   block->constc = 0;
 
   block->regc = 0;
@@ -44,13 +46,13 @@ void Block_delete(Block* self)
 {
   for (int i = 0; i < self->constc; i++) {
     Const* c = self->consts[i];
-    // free(c->data);
-    free(c);
+    // rx_free(c->data);
+    rx_free(c);
   }
 
-  free(self->data);
-  free(self->consts);
-  free(self);
+  rx_free(self->data);
+  rx_free(self->consts);
+  rx_free(self);
 }
 
 void Block_replace(Block* self, int pos, int data)
@@ -65,7 +67,7 @@ int Block_append(Block* self, OpCode op, ...)
   int     argc  = OpCode_size(op);
 
   self->size += argc;
-  self->data = realloc(self->data, self->size * sizeof(int));
+  self->data = rx_realloc(self->data, self->size * sizeof(int));
 
   self->data[start++] = op;
 
@@ -85,11 +87,11 @@ int Block_position(Block* self)
 
 int Block_const(Block* self, ConstType type, void* data)
 {
-  Const* constant = malloc(sizeof(Const));
+  Const* constant = rx_malloc(sizeof(Const));
   constant->type  = type;
   constant->data  = data;
 
-  self->consts               = realloc(self->consts, sizeof(Const*) * (self->constc + 1));
+  self->consts               = rx_realloc(self->consts, sizeof(Const*) * (self->constc + 1));
   self->consts[self->constc] = constant;
   return self->constc++;
 }
@@ -147,7 +149,7 @@ Block* Block_read(FILE* file)
   fread(&block->size, sizeof(int), 1, file);
 
   // read data
-  block->data = malloc(sizeof(int) * block->size);
+  block->data = rx_malloc(sizeof(int) * block->size);
   fread(block->data, sizeof(int), block->size, file);
 
   // read register count

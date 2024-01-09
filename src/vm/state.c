@@ -25,21 +25,23 @@
 #include "runtime/runtime.h"
 #include <stdlib.h>
 
+#include "memory.h"
+
 static State* global_state = 0;
 
 State* State_new(Module* module)
 {
-  State* state  = malloc(sizeof(State));
+  State* state  = rx_malloc(sizeof(State));
   state->sp     = 0;
-  state->stack  = malloc(sizeof(Object*) * 512);
+  state->stack  = rx_malloc(sizeof(Object*) * 512);
   state->module = module;
   return state;
 }
 
 void State_delete(State* self)
 {
-  free(self->stack);
-  free(self);
+  rx_free(self->stack);
+  rx_free(self);
 
   if (self == global_state) {
     global_state = 0;
