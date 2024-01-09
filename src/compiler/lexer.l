@@ -27,6 +27,9 @@
 "|"     { return BOR; }
 "^"     { return BXOR; }
 
+"<<"    { return LSHIFT; }
+">>"    { return RSHIFT; }
+
 "=="    { return EQ; }
 "!="    { return NE; }
 ">"     { return GT; }

@@ -35,6 +35,7 @@ int yylex(void* yylval_param, void* loc, void* scanner);
 %left NOT
 %left EQ NE GT LT LE GE
 %left BAND BOR BXOR
+%left LSHIFT RSHIFT
 %left ADD SUB
 %left MUL DIV
 
@@ -147,7 +148,9 @@ binop         : expr ADD expr  { $$ = BinOpNode_new($1, $3, "+"); }
               | expr DIV expr  { $$ = BinOpNode_new($1, $3, "/"); }
               | expr BAND expr { $$ = BinOpNode_new($1, $3, "&"); }
               | expr BOR expr  { $$ = BinOpNode_new($1, $3, "|"); }
-              | expr BXOR expr  { $$ = BinOpNode_new($1, $3, "^"); }
+              | expr BXOR expr { $$ = BinOpNode_new($1, $3, "^"); }
+              | expr LSHIFT expr  { $$ = BinOpNode_new($1, $3, "<<"); }
+              | expr RSHIFT expr  { $$ = BinOpNode_new($1, $3, ">>"); }
               | expr EQ expr   { $$ = BinOpNode_new($1, $3, "=="); }
               | expr NE expr   { $$ = BinOpNode_new($1, $3, "!="); }
               | expr GT expr   { $$ = BinOpNode_new($1, $3, ">"); }

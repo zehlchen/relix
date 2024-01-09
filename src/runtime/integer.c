@@ -115,6 +115,16 @@ Object* Integer_bwxor(Object* self, Object* other)
   return Integer_new(self->data.i ^ other->data.i);
 }
 
+Object* Integer_leftshift(Object* self, Object* other)
+{
+  return Integer_new(self->data.i << other->data.i);
+}
+
+Object* Integer_rightshift(Object* self, Object* other)
+{
+  return Integer_new(self->data.i >> other->data.i);
+}
+
 /*
  * Inplace operations
  */
@@ -156,6 +166,9 @@ void Integer_initProto()
   Object_setSlot(Integer_proto, SYM(&), FUNC(Integer_bwand, 2));
   Object_setSlot(Integer_proto, SYM(|), FUNC(Integer_bwor, 2));
   Object_setSlot(Integer_proto, SYM(^), FUNC(Integer_bwxor, 2));
+
+  Object_setSlot(Integer_proto, SYM(<<), FUNC(Integer_leftshift, 2));
+  Object_setSlot(Integer_proto, SYM(>>), FUNC(Integer_rightshift, 2));
 
   Object_setSlot(Integer_proto, SYM(==), FUNC(Integer_eq, 2));
   Object_setSlot(Integer_proto, SYM(!=), FUNC(Integer_ne, 2));
