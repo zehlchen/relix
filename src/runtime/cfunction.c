@@ -25,6 +25,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "memory.h"
+
 typedef struct {
   FuncPtr func;
   int     argc;
@@ -33,7 +35,7 @@ typedef struct {
 Object* CFunction_new(FuncPtr func, int argc)
 {
   Object* new  = Object_new(CFunction_proto);
-  CFunction* f = malloc(sizeof(CFunction));
+  CFunction* f = rx_malloc(sizeof(CFunction));
 
   f->func = func;
   f->argc = argc;

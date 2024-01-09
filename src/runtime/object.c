@@ -25,9 +25,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "memory.h"
+
 Object* Object_new(Object* proto)
 {
-  Object* new = malloc(sizeof(Object));
+  Object* new = rx_malloc(sizeof(Object));
   new->proto  = proto;
   new->slots  = 0;
   return new;
@@ -36,8 +38,8 @@ Object* Object_new(Object* proto)
 Object* Object_delete(Object* self)
 {
   if (self->slots)
-    free(self->slots);
-  free(self);
+    rx_free(self->slots);
+  rx_free(self);
   return Qnil;
 }
 

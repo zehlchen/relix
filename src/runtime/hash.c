@@ -25,6 +25,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "memory.h"
+
 typedef struct {
   int      size;
   int      bounds;
@@ -100,13 +102,13 @@ static int cmp_obj(Object* a, Object* b)
 
 Object* Hash_init(Object* self)
 {
-  Hash* hash = malloc(sizeof(Hash));
+  Hash* hash = rx_malloc(sizeof(Hash));
 
   hash->size   = 0;
   hash->bounds = 8;
 
-  hash->keys   = calloc(sizeof(Object*), hash->bounds);
-  hash->values = malloc(sizeof(Object*) * hash->bounds);
+  hash->keys   = rx_calloc(sizeof(Object*), hash->bounds);
+  hash->values = rx_malloc(sizeof(Object*) * hash->bounds);
 
   self->data.ptr = hash;
   return self;
@@ -123,9 +125,9 @@ Object* Hash_delete(Object* self)
 {
   Hash* hash = self->data.ptr;
 
-  free(hash->keys);
-  free(hash->values);
-  free(hash);
+  rx_free(hash->keys);
+  rx_free(hash->values);
+  rx_free(hash);
 
   return Object_delete(self);
 }
@@ -138,8 +140,8 @@ Object* Hash_set(Object* self, Object* key, Object* value)
   if ((hash->size * 100) / hash->bounds > 75) {
     int newBounds = hash->bounds * 2;
 
-    Object** tmpKeys   = calloc(sizeof(Object*), newBounds);
-    Object** tmpValues = malloc(sizeof(Object*) * newBounds);
+    Object** tmpKeys   = rx_calloc(sizeof(Object*), newBounds);
+    Object** tmpValues = rx_malloc(sizeof(Object*) * newBounds);
 
     // rehash each key
     for (int i = 0; i < hash->bounds; i++) {
@@ -153,8 +155,8 @@ Object* Hash_set(Object* self, Object* key, Object* value)
       }
     }
 
-    free(hash->keys);
-    free(hash->values);
+    rx_free(hash->keys);
+    rx_free(hash->values);
 
     hash->keys   = tmpKeys;
     hash->values = tmpValues;

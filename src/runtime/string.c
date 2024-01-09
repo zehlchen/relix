@@ -24,10 +24,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "memory.h"
+
 Object* String_new(const char* value)
 {
   Object* new   = Object_new(String_proto);
-  new->data.ptr = malloc(strlen(value) + 1);
+  new->data.ptr = rx_malloc(strlen(value) + 1);
   strcpy(new->data.ptr, value);
   return new;
 }
@@ -35,18 +37,18 @@ Object* String_new(const char* value)
 Object* String_add(Object* self, Object* other)
 {
   int   size   = strlen(self->data.ptr) + strlen(other->data.ptr) + 1;
-  char* buffer = malloc(size);
+  char* buffer = rx_malloc(size);
   strcpy(buffer, self->data.ptr);
   strcat(buffer, other->data.ptr);
   Object* str = String_new(buffer);
-  free(buffer);
+  rx_free(buffer);
   return str;
 }
 
 Object* String_iadd(Object* self, Object* other)
 {
   int size       = strlen(self->data.ptr) + strlen(other->data.ptr) + 1;
-  self->data.ptr = realloc(self->data.ptr, size);
+  self->data.ptr = rx_realloc(self->data.ptr, size);
   strcat(self->data.ptr, other->data.ptr);
   return self;
 }
@@ -83,12 +85,12 @@ Object* String_split(Object* self, Object* delimiter)
     size_t size = pch - str;
 
     if (size != 0) {
-      char* tmp = calloc(sizeof(char), size + 1);
+      char* tmp = rx_calloc(sizeof(char), size + 1);
       strncpy(tmp, str, size);
 
       List_append(list, String_new(tmp));
 
-      free(tmp);
+      rx_free(tmp);
     }
 
     str += size + del_size;

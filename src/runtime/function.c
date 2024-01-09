@@ -26,6 +26,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "memory.h"
+
 typedef struct {
   int id;
   int argc;
@@ -34,7 +36,7 @@ typedef struct {
 Object* Function_new(int id, int argc)
 {
   Object* new = Object_new(Function_proto);
-  Function* f = malloc(sizeof(Function));
+  Function* f = rx_malloc(sizeof(Function));
 
   f->id   = id;
   f->argc = argc;

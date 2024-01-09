@@ -23,6 +23,8 @@
 #include "runtime.h"
 #include <stdlib.h>
 
+#include "memory.h"
+
 typedef struct {
   int      size;
   int      bounds;
@@ -35,14 +37,14 @@ static inline void List_resize(List* list)
   if (list->size == list->bounds) {
     int new_size  = list->bounds + 1;
     new_size      = (new_size >> 3) + (new_size < 9 ? 3 : 6) + new_size;
-    list->objects = realloc(list->objects, new_size * sizeof(Object*));
+    list->objects = rx_realloc(list->objects, new_size * sizeof(Object*));
     list->bounds  = new_size;
   }
 }
 
 Object* List_init(Object* self)
 {
-  List* list = malloc(sizeof(List));
+  List* list = rx_malloc(sizeof(List));
 
   list->size    = 0;
   list->bounds  = 0;
