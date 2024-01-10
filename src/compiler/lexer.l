@@ -68,6 +68,9 @@
 ";"     { return SEMICOLON; }
 "=>"    { return ARROW; }
 
+"++"    { return INCREMENT; }
+"--"    { return DECREMENT; }
+
 [0-9]+\.[0-9]+         { yylval->dval = atof(yytext); return DECIMAL; }
 [0-9]+                 { yylval->ival = atoi(yytext); return INTEGER; }
 [a-zA-Z_][a-zA-Z0-9_]* { yylval->sval = strdup(yytext); return NAME; }
