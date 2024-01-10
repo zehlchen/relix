@@ -69,6 +69,9 @@ int yylex(void* yylval_param, void* loc, void* scanner);
 %token SEMICOLON ";"
 %token ARROW "=>"
 
+// unary operators
+%token INCREMENT "++"
+%token DECREMENT "--"
 // logical operations
 %token BAND "&"
 %token BOR "|"
