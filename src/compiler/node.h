@@ -70,6 +70,7 @@ typedef struct Node {
 
 Node* Node_new(enum NodeTag tag, Node* left, Node* right);
 void  Node_delete(Node* self);
+void  Node_print(Node* node, int indent);
 
 Node* AssignNode_new(const char* name, Node* value);
 Node* SubscriptNode_new(Node* obj, Node* subscript, Node* value);

@@ -20,8 +20,10 @@
  *
  */
 
-#include "node.h"
 #include <assert.h>
+#include <stdio.h>
+
+#include "node.h"
 
 Node* Node_new(enum NodeTag tag, Node* left, Node* right)
 {
@@ -53,6 +55,115 @@ void Node_delete(Node* self)
   }
 
   free(self);
+}
+
+void Node_print(Node* node, int indent)
+{
+  assert(node);
+
+  if (indent == 0) {
+    fprintf(stderr, "Begin AST dump:\n");
+  }
+
+  for (int i = 0; i < indent; i++)
+    fprintf(stderr, "--");
+
+  fprintf(stderr, "> ");
+
+  switch (node->tag) {
+    case BranchNode:
+      fprintf(stderr, "BranchNode");
+      break;
+    case BinOpNode:
+      fprintf(stderr, "BinOpNode");
+      break;
+    case UnOpNode:
+      fprintf(stderr, "UnOpNode");
+      break;
+    case CallNode:
+      fprintf(stderr, "CallNode");
+      break;
+    case SendNode:
+      fprintf(stderr, "SendNode");
+      break;
+
+    case ArgsNode:
+      fprintf(stderr, "ArgsNode");
+      break;
+    case DoArgsNode:
+      fprintf(stderr, "DoArgsNode");
+      break;
+    case HashArgsNode:
+      fprintf(stderr, "HashArgsNode");
+      break;
+    case SetSlotNode:
+      fprintf(stderr, "SetSlotNode");
+      break;
+    case GetSlotNode:
+      fprintf(stderr, "GetSlotNode");
+      break;
+    case AssignNode:
+      fprintf(stderr, "AssignNode");
+      break;
+    case SubscriptNode:
+      fprintf(stderr, "SubscriptNode");
+      break;
+
+    case IfNode:
+      fprintf(stderr, "IfNode");
+      break;
+    case ElseNode:
+      fprintf(stderr, "ElseNode");
+      break;
+    case WhileNode:
+      fprintf(stderr, "WhileNode");
+      break;
+    case DoNode:
+      fprintf(stderr, "DoNode");
+      break;
+    case TryNode:
+      fprintf(stderr, "TryNode");
+      break;
+
+    case HashNode:
+      fprintf(stderr, "HashNode");
+      break;
+    case HashElementNode:
+      fprintf(stderr, "HashElementNode");
+      break;
+    case ListNode:
+      fprintf(stderr, "ListNode");
+      break;
+    case IntegerNode:
+      fprintf(stderr, "IntegerNode");
+      break;
+    case FloatNode:
+      fprintf(stderr, "FloatNode");
+      break;
+    case StringNode:
+      fprintf(stderr, "StringNode");
+      break;
+    case NameNode:
+      fprintf(stderr, "NameNode");
+      break;
+    case SymbolNode:
+      fprintf(stderr, "SymbolNode");
+      break;
+    default:
+      fprintf(stderr, "UnknownNode");
+      break;
+  }
+  fprintf(stderr, "\n");
+
+  fflush(stderr);
+
+  if (node->left)
+    Node_print(node->left, indent + 1);
+  if (node->right)
+    Node_print(node->right, indent + 1);
+
+  if (indent == 0)
+    fprintf(stderr, "End AST dump.\n");
 }
 
 Node* AssignNode_new(const char* name, Node* value)
