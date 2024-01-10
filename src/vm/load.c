@@ -32,7 +32,7 @@ Object* load(State* state, const char* name)
   char* lib_name = rx_malloc(sizeof(char) * (6 + strlen(name) + strlen(SHARED_LIB_PREFIX) + strlen(SHARED_LIB_SUFFIX)));
 
   strcpy(lib_name, SHARED_LIB_PREFIX);
-  strcat(lib_name, "proty-");
+  strcat(lib_name, "relix-");
   strcat(lib_name, name);
   strcat(lib_name, SHARED_LIB_SUFFIX);
 
