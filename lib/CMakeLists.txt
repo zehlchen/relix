@@ -28,7 +28,7 @@ macro(relix_lib name)
   set_target_properties(relix-${name} PROPERTIES
                                       RUNTIME_OUTPUT_DIRECTORY "relix"
                                       LIBRARY_OUTPUT_DIRECTORY "relix")
-  target_link_libraries(relix-${name} librelix)
+  target_link_libraries(relix-${name} relix)
   install(TARGETS relix-${name} DESTINATION lib/relix)
 endmacro(relix_lib)
 

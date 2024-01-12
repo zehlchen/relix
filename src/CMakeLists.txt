@@ -61,11 +61,12 @@ add_compile_definitions(
 )
 
 #
-# librelix
+#  RELIX
 #
 
-add_library(librelix SHARED
+add_library(relix SHARED
   version.c
+  debug.c
   memory.c
   vm/block.c
   vm/const.c
@@ -88,15 +89,15 @@ add_library(librelix SHARED
   runtime/bool.c
   runtime/exception.c
 )
-set_target_properties(librelix PROPERTIES OUTPUT_NAME "relix")
-target_link_libraries(librelix dl)
-install(TARGETS librelix LIBRARY DESTINATION lib)
+set_target_properties(relix PROPERTIES OUTPUT_NAME "relix")
+target_link_libraries(relix dl)
+install(TARGETS relix LIBRARY DESTINATION lib)
 install(DIRECTORY vm DESTINATION include/relix FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY runtime DESTINATION include/relix FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY . DESTINATION include/relix FILES_MATCHING PATTERN "*.h")
 
 #
-# librelixc
+# ReScript Dialect
 #
 
 bison_target(Parser compiler/parser.y ${CMAKE_CURRENT_BINARY_DIR}/parser.c)
@@ -111,6 +112,6 @@ add_library(rescript SHARED
   compiler/compiler.c
   compiler/symtab.c
 )
-target_link_libraries(rescript librelix)
+target_link_libraries(rescript relix)
 install(TARGETS rescript LIBRARY DESTINATION lib)
 install(DIRECTORY compiler DESTINATION include/relix FILES_MATCHING PATTERN "*.h")
